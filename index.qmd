@@ -44,6 +44,7 @@ The final exam consists of two parts, a project to be carried out in groups and 
 
 ### Textbooks and reading materials
 Main textbooks:
+
 - Gelman, A., Carlin, J. B., Stern, H. S., Dunson, D. B., Vehtari, A., & Rubin, D. B. (2014). Bayesian Data Analysis, Third Edition. CRC Press.
 
 - Gelman, A., & Hill, J. (2007). Data analysis using regression and multilevel/hierarchical models. Cambridge University Press.
