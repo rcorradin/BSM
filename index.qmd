@@ -25,7 +25,7 @@ Here you can find slides, examples and case studies.
 
 | Topic | Slides | Further material |
 |------------------------|---------------------------|---------------------------|
-| Introduction | [Slides introduction](slides/sl_intro.pdf) |  |
+| Introduction | [Slides introduction](slides/intro.pdf) |  |
 | Linear models | TBD |  |
 | GLMs | TBD |  |
 | Model improvement | TBD |  |
@@ -33,6 +33,12 @@ Here you can find slides, examples and case studies.
 | Further Bayesian models | TBD |  |
 
 Material is subject to changes during the term. 
+
+------------------------------------------------------------------------
+
+### Office hour
+
+To book a meeting, you can write an email to `riccardo.corradin@unimib.it`. Office hours are every **Tuesday at 16:30**.
 
 ------------------------------------------------------------------------
 
