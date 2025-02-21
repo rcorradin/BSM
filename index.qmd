@@ -44,7 +44,7 @@ To book a meeting, you can write an email to `riccardo.corradin@unimib.it`. Offi
 
 ### Exam
 
-The final exam consists of two parts, a project to be carried out in groups and a written exam. The project focuses on the evaluation of the analysis and use of model skills acquired by the students, where they will be asked to produce a paper discussing the analysis of an applied problem using Bayesian techniques. The written exam aims to verify the methodological skills acquired by the student and consists of 3 open questions. The use of texts or other materials is not permitted during the written exam. The final grade will be made up of a weighted average of the grades resulting from the project, 30% of the final grade, and from the written exam, 70% of the final grade.
+The final exam consists of two parts, a project to be carried out in groups and an oral exam. The project focuses on the evaluation of the analysis and use of model skills acquired by the students, where they will be asked to produce a paper discussing the analysis of an applied problem using Bayesian techniques. The oral exam aims to verify the methodological skills acquired by the student.
 
 ------------------------------------------------------------------------
 
