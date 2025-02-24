@@ -6,6 +6,7 @@ project:
     - /img
     - /data
     - /slides
+    - /code
 
 website:
   title: "BSM"
