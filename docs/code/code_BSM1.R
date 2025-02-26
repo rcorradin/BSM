@@ -8,6 +8,113 @@ library(coda)
 library(ggplot2)
 
 ############################################
+### METROPOLIS-HASTINGS ALGORITHM      #####
+############################################
+### CAUCHY DISTRIBUTION                #####
+############################################
+
+set.seed(42)
+y <- rcauchy(1000, 1, 2)
+
+#-------------------------------------------
+# log-posterior function
+
+cauchy_log_post <- function(param, y, mu1, sig1, mu2, sig2){
+  mu <- param[1]
+  theta <- param[2]
+  n <- length(y)
+  out <- 0
+  
+  # log-likelihood for each obs
+  for(i in 1:n){
+    out <- out - exp(theta) - log(1 + exp(-2*exp(theta)) * (y[i]-mu)^2)
+  }
+  out <- out + theta
+  
+  # Add the prior in log scale
+  out <- out + dnorm(mu, mean = mu1, sd = sig1, log = T)
+  out <- out + dnorm(theta, mean = mu2, sd = sig2, log = T)
+  
+  # return the log-posterior
+  return(out)
+}
+
+
+#-------------------------------------------
+# Metropolis-Hastings Algorithm
+
+cauchy_MH <- function(niter, burnin, y,
+                      param0, Sigma, mu1, mu2, sig1, sig2){
+
+  # define the matrix that contains the output MCMC sample
+  param_output <- matrix(nrow = niter, ncol = 2)
+  
+  # number of accepted moves
+  nacp = 0  
+  
+  pb <- txtProgressBar(min = 1, max = niter, initial = 1, style = 3)
+  
+  # Start from param0
+  for(i in 1:(niter))
+  {
+    param_temp <- as.vector(rmvnorm(1, mean = param0, sigma = Sigma)) 
+    
+    # log acceptance numerator
+    lacp <- cauchy_log_post(param = param_temp, y = y, mu1 = mu1, 
+                            sig1 = sig1, mu2 = mu2, sig2 = sig2)
+    
+    # minus log denominator:
+    lacp <- lacp - cauchy_log_post(param = param0, y = y, mu1 = mu1, 
+                                   sig1 = sig1, mu2 = mu2, sig2 = sig2)
+    lacp <- min(0, lacp)  
+    
+    # log-uniform
+    lgu <- log(runif(1))
+    
+    ## if u < acp accept the move
+    if(lgu < lacp)
+    {
+      param0 <- param_temp
+      param_output[i,] <- param0
+      nacp = nacp + 1
+    } else {
+      param_output[i,] <- param0
+    }
+    setTxtProgressBar(pb, i)
+  }
+  
+  close(pb)
+  cat("Acceptance rate =", nacp/niter, "\n")
+  return(param_output[-c(1:burnin),])
+}
+
+#------------------------------------
+
+theta_post <- cauchy_MH(niter = 12000, burnin = 2000, 
+                        y = y, param0 = c(1,1), Sigma = diag(1, 2), 
+                        mu1 = 0, mu2 = 0, sig1 = 10, sig2 = 10)
+
+# CODA
+mcmc_theta_post <- mcmc(theta_post, start = burnin + 1, end = niter)
+summary(mcmc_theta_post)
+plot(mcmc_theta_post)
+effectiveSize(mcmc_theta_post)
+geweke.diag(mcmc_theta_post)
+
+#------------------------------------
+
+theta_post <- cauchy_MH(niter = 12000, burnin = 2000, 
+                        y = y, param0 = c(1,1), Sigma = diag(0.01, 2), 
+                        mu1 = 0, mu2 = 0, sig1 = 10, sig2 = 10)
+
+# CODA
+mcmc_theta_post <- mcmc(theta_post, start = burnin + 1, end = niter)
+summary(mcmc_theta_post)
+plot(mcmc_theta_post)
+effectiveSize(mcmc_theta_post)
+geweke.diag(mcmc_theta_post)
+
+############################################
 ### HAMILTONIAN MONTE CARLO - a step   #####
 ############################################
 
@@ -114,7 +221,7 @@ HMC_norm <-  function(niter, burnin, theta0, mu, Sigma, epsilon, L){
 }
 
 #-----------------------------------------------------------------
-# RUN: HMC vs RW-MH
+# RUN: HMC 
 
 theta0 <- c(3,3)
 mu <- c(2,2)
