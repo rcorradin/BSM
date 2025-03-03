@@ -62,6 +62,11 @@ plot(as.data.frame(out_gibbs_vague_5[[2]]))
 summary(out_gibbs_vague_5[[1]])
 summary(as.data.frame(out_gibbs_vague_5[[2]]))
 
+beta_sigma_out_5 <- as.mcmc(cbind(out_gibbs_vague_5[[2]], out_gibbs_vague_5[[1]]))
+summary(beta_sigma_out_5)
+effectiveSize(beta_sigma_out_5)
+geweke.diag(beta_sigma_out_5)
+
 # with the whole sample
 
 out_gibbs_vague <- gibbs_vague_prior(y, X, 1200, 200)
@@ -77,6 +82,10 @@ plot(as.data.frame(out_gibbs_vague[[2]]))
 summary(out_gibbs_vague[[1]])
 summary(as.data.frame(out_gibbs_vague[[2]]))
 
+beta_sigma_out <- as.mcmc(cbind(out_gibbs_vague[[2]], out_gibbs_vague[[1]]))
+summary(beta_sigma_out)
+effectiveSize(beta_sigma_out)
+geweke.diag(beta_sigma_out)
 
 # -----------------------------
 # In the following, we perform similar analysis with
@@ -104,9 +113,18 @@ out_STAN_5 <- stan(file = "regression_informative_prior.stan",
                    seed = 42)
 
 rstan::traceplot(out_STAN_5, pars = c("beta", "sigma2"))
-params_STAN_5 <- as.mcmc(extract(out_STAN_5, pars = c("beta", "sigma2"), permuted = TRUE))
-summary(params_STAN_5$beta)
-summary(params_STAN_5$sigma2)
+params_STAN_5 <- As.mcmc.list(out_STAN_5, pars = c("beta", "sigma2"))
+summary(params_STAN_5)
+effectiveSize(params_STAN_5)
+geweke.diag(params_STAN_5)
+
+df_plot <- data.frame(x = as.vector(params_STAN_5[[1]]), 
+                      group = factor(rep(c("beta1", "beta2", "beta3", "sigma2"), each = 800)))
+ggplot(df_plot[1:2400,]) + 
+  geom_histogram(aes(x = x, fill = group), col = 1, alpha = 0.5) + 
+  facet_wrap(.~group, nrow = 1) +
+  theme_bw() + 
+  theme(legend.position = "null")
 
 # with 20 observations
 
@@ -127,9 +145,19 @@ out_STAN_20 <- stan(file = "regression_informative_prior.stan",
                     seed = 42)
 
 rstan::traceplot(out_STAN_20, pars = c("beta", "sigma2"))
-params_STAN_5 <- as.mcmc(extract(out_STAN_20, pars = c("beta", "sigma2"), permuted = TRUE))
-summary(out_STAN_20$beta)
-summary(out_STAN_20$sigma2)
+params_STAN_20 <- As.mcmc.list(out_STAN_20, pars = c("beta", "sigma2"))
+summary(params_STAN_20)
+effectiveSize(params_STAN_20)
+geweke.diag(params_STAN_20)
+
+df_plot <- data.frame(x = as.vector(params_STAN_20[[1]]), 
+                      group = factor(rep(c("beta1", "beta2", "beta3", "sigma2"), each = 800)))
+ggplot(df_plot[1:2400,]) + 
+  geom_histogram(aes(x = x, fill = group), col = 1, alpha = 0.5) + 
+  facet_wrap(.~group, nrow = 1) +
+  theme_bw() + 
+  theme(legend.position = "null")
+
 
 # -----------------------------
 # Hypothesis test
