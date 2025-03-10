@@ -7,7 +7,7 @@ project:
     - /data
     - /slides
     - /code
-    - /cd_files
+    - /cs_files
 
 website:
   title: "BSM"
