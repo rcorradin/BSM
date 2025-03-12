@@ -36,7 +36,7 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                            |                                              |
 |                         |                                                   | [informative_prior](code/informative_prior.stan)           | [frogs.csv](cs_files/frogs.csv)              |
 |                         |                                                   |                                                            |                                              |
-|                         |                                                   | [regular_gaussian_prior](code/regular_gaussian_prior.stan) |                                              |
+|                         |                                                   | [regular_gaussian_prior](code/regular_gaussian_prior.stan) | [solution](code/CS_frogs.R)                  |
 |                         |                                                   |                                                            |                                              |
 |                         |                                                   | [regular_laplace_prior](code/regular_laplace_prior.stan)   |                                              |
 +-------------------------+---------------------------------------------------+------------------------------------------------------------+----------------------------------------------+
