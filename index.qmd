@@ -40,11 +40,11 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                              |
 |                         |                                                   | [regular_laplace_prior](code/regular_laplace_prior.stan)    |                                              |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+----------------------------------------------+
-| GLMs                    | [Slides GLMs](slides/GLM.pdf)                     | [code_BSM3](code/code_BSM3.R)                               |                                              |
+| GLMs                    | [Slides GLMs](slides/GLM.pdf)                     | [code_BSM3](code/code_BSM3.R)                               | [CS GLMM](cs_files/CSglm.pdf)                |
 |                         |                                                   |                                                             |                                              |
-|                         |                                                   | [poisson_glm](code/poisson_glm.stan)                        |                                              |
+|                         |                                                   | [poisson_glm](code/poisson_glm.stan)                        | [grouse.csv](cs_files/grouse.csv)            |
 |                         |                                                   |                                                             |                                              |
-|                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            |                                              |
+|                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            | [ant.csv](cs_files/ant.csv)                  |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+----------------------------------------------+
 | Model improvement       | TBD                                               |                                                             |                                              |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+----------------------------------------------+
