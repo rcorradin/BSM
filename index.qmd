@@ -15,9 +15,9 @@ format:
 editor: visual
 ---
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|  |
+|----|
 | In this page, you can find teaching materials, examples, case studies and information related to the Bayesian Statistical Models module taught in the Scienze Statistiche ed Economiche degree course. |
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ### Slides and teaching material
 
