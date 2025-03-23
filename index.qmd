@@ -15,9 +15,9 @@ format:
 editor: visual
 ---
 
-|  |
-|----|
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | In this page, you can find teaching materials, examples, case studies and information related to the Bayesian Statistical Models module taught in the Scienze Statistiche ed Economiche degree course. |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ### Slides and teaching material
 
@@ -46,11 +46,11 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                              |
 |                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            | [ant.csv](cs_files/ant.csv)                  |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+----------------------------------------------+
-| Model improvement       | [Slides improvement](slides/improvement.pdf)      | [code_BSM4](code/code_BSM4.R)                               |                                              |
+| Model improvement       | [Slides improvement](slides/improvement.pdf)      | [code_BSM4](code/code_BSM4.R)                               | [CS improvement](cs_files/CSimprovement.pdf) |
 |                         |                                                   |                                                             |                                              |
-|                         |                                                   | [logistic_model](code/logistic_model.stan)                  |                                              |
+|                         |                                                   | [logistic_model](code/logistic_model.stan)                  | [frogs.csv](cs_files/frogs.csv)              |
 |                         |                                                   |                                                             |                                              |
-|                         |                                                   | [regression_model](code/regression_model.stan)              |                                              |
+|                         |                                                   | [regression_model](code/regression_model.stan)              | [reach.csv](cs_files/reach.csv)              |
 |                         |                                                   |                                                             |                                              |
 |                         |                                                   | [regression_model_hyper](code/regression_model_hyper.stan)  |                                              |
 |                         |                                                   |                                                             |                                              |
