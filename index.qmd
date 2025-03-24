@@ -15,9 +15,9 @@ format:
 editor: visual
 ---
 
-|  |
-|----|
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | In this page, you can find teaching materials, examples, case studies and information related to the Bayesian Statistical Models module taught in the Scienze Statistiche ed Economiche degree course. |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ### Slides and teaching material
 
@@ -50,7 +50,7 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                              |
 |                         |                                                   | [logistic_model](code/logistic_model.stan)                  | [frogs.csv](cs_files/frogs.csv)              |
 |                         |                                                   |                                                             |                                              |
-|                         |                                                   | [regression_model](code/regression_model.stan)              | [reach.csv](cs_files/reach.csv)              |
+|                         |                                                   | [regression_model](code/regression_model.stan)              | [reach.txt](cs_files/reach.txt)              |
 |                         |                                                   |                                                             |                                              |
 |                         |                                                   | [regression_model_hyper](code/regression_model_hyper.stan)  |                                              |
 |                         |                                                   |                                                             |                                              |
