@@ -58,7 +58,7 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                                        |
 |                         |                                                   | [skeleton](code/skeleton4.R)                                | [code regression](cs_files/regression.stan)            |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
-| Clustering              | [Slides clustering](slides/clustering.pdf)        |                                                             | [CS clustering](cs_files/CSclustering.pdf)             |
+| Clustering              | [Slides clustering](slides/clustering.pdf)        | [code_BSM5](code/code_BSM5.R)                               | [CS clustering](cs_files/CSclustering.pdf)             |
 |                         |                                                   |                                                             |                                                        |
 |                         |                                                   |                                                             | [globular_cluster.txt](cs_filese/globular_cluster.txt) |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
