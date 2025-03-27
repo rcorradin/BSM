@@ -23,45 +23,47 @@ editor: visual
 
 Here you can find slides, examples and case studies.
 
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| Topic                   | Slides                                            | Further material                                            | Case studies                                  |
-+=========================+===================================================+=============================================================+===============================================+
-| Introduction            | [Slides introduction](slides/intro.pdf)           | [code_BSM1](code/code_BSM1.R)                               |                                               |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [bern_beta](code/bernoulli_beta.stan)                       |                                               |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [norm_norm_IG](code/normal_normal_gamma.stan)               |                                               |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| Linear models           | [Slides linear regression](slides/linear_reg.pdf) | [code_BSM2](code/code_BSM2.R)                               | [CS linear regression](cs_files/CSfrogs.pdf)  |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [informative_prior](code/regression_informative_prior.stan) | [frogs.csv](cs_files/frogs.csv)               |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [regular_gaussian_prior](code/regular_gaussian_prior.stan)  | [solution](code/CS_frogs.R)                   |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [regular_laplace_prior](code/regular_laplace_prior.stan)    |                                               |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| GLMs                    | [Slides GLMs](slides/GLM.pdf)                     | [code_BSM3](code/code_BSM3.R)                               | [CS GLMM](cs_files/CSglm.pdf)                 |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [poisson_glm](code/poisson_glm.stan)                        | [grouse.csv](cs_files/grouse.csv)             |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            | [ant.csv](cs_files/ant.csv)                   |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| Model improvement       | [Slides improvement](slides/improvement.pdf)      | [code_BSM4](code/code_BSM4.R)                               | [CS improvement](cs_files/CSimprovement.pdf)  |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [logistic_model](code/logistic_model.stan)                  | [frogs.csv](cs_files/frogs.csv)               |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [regression_model](code/regression_model.stan)              | [reach.txt](cs_files/reach.txt)               |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [regression_model_hyper](code/regression_model_hyper.stan)  | [solution](cs_files/codice_CSimprovement.R)   |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [regression_SSVS_model](code/regression_SSVS_model.stan)    | [code probit SpSl](cs_files/probit_SpSl.stan) |
-|                         |                                                   |                                                             |                                               |
-|                         |                                                   | [skeleton](code/skeleton4.R)                                | [code regression](cs_files/regression.stan)   |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| Clustering              | [Slides clustering](slides/clustering.pdf)        |                                                             |                                               |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
-| Further Bayesian models | TBD                                               |                                                             |                                               |
-+-------------------------+---------------------------------------------------+-------------------------------------------------------------+-----------------------------------------------+
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| Topic                   | Slides                                            | Further material                                            | Case studies                                           |
++=========================+===================================================+=============================================================+========================================================+
+| Introduction            | [Slides introduction](slides/intro.pdf)           | [code_BSM1](code/code_BSM1.R)                               |                                                        |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [bern_beta](code/bernoulli_beta.stan)                       |                                                        |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [norm_norm_IG](code/normal_normal_gamma.stan)               |                                                        |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| Linear models           | [Slides linear regression](slides/linear_reg.pdf) | [code_BSM2](code/code_BSM2.R)                               | [CS linear regression](cs_files/CSfrogs.pdf)           |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [informative_prior](code/regression_informative_prior.stan) | [frogs.csv](cs_files/frogs.csv)                        |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [regular_gaussian_prior](code/regular_gaussian_prior.stan)  | [solution](code/CS_frogs.R)                            |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [regular_laplace_prior](code/regular_laplace_prior.stan)    |                                                        |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| GLMs                    | [Slides GLMs](slides/GLM.pdf)                     | [code_BSM3](code/code_BSM3.R)                               | [CS GLMM](cs_files/CSglm.pdf)                          |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [poisson_glm](code/poisson_glm.stan)                        | [grouse.csv](cs_files/grouse.csv)                      |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            | [ant.csv](cs_files/ant.csv)                            |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| Model improvement       | [Slides improvement](slides/improvement.pdf)      | [code_BSM4](code/code_BSM4.R)                               | [CS improvement](cs_files/CSimprovement.pdf)           |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [logistic_model](code/logistic_model.stan)                  | [frogs.csv](cs_files/frogs.csv)                        |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [regression_model](code/regression_model.stan)              | [reach.txt](cs_files/reach.txt)                        |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [regression_model_hyper](code/regression_model_hyper.stan)  | [solution](cs_files/codice_CSimprovement.R)            |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [regression_SSVS_model](code/regression_SSVS_model.stan)    | [code probit SpSl](cs_files/probit_SpSl.stan)          |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   | [skeleton](code/skeleton4.R)                                | [code regression](cs_files/regression.stan)            |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| Clustering              | [Slides clustering](slides/clustering.pdf)        |                                                             | [CS clustering](cs_files/CSclustering.pdf)             |
+|                         |                                                   |                                                             |                                                        |
+|                         |                                                   |                                                             | [globular_cluster.txt](cs_filese/globular_cluster.txt) |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+| Further Bayesian models | TBD                                               |                                                             |                                                        |
++-------------------------+---------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
 
 Material is subject to changes during the term.
 
