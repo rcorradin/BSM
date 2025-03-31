@@ -62,7 +62,11 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   |                                                             | [globular_cluster.txt](cs_files/globular_cluster.txt) |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
-| Spatial Bayesian models | [Slides spatial](slides/spatial.pdf)              |                                                             |                                                       |
+| Spatial Bayesian models | [Slides spatial](slides/spatial.pdf)              |                                                             | [CS spatial](cs_files/CSspatial.pdf)                  |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [river.rda](cs_files/river.rda)                       |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [sids.rda](cs_files/sids.rda)                         |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
 
 Material is subject to changes during the term.
