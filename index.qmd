@@ -15,9 +15,9 @@ format:
 editor: visual
 ---
 
-|  |
-|----|
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | In this page, you can find teaching materials, examples, case studies and information related to the Bayesian Statistical Models module taught in the Scienze Statistiche ed Economiche degree course. |
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ### Slides and teaching material
 
@@ -62,7 +62,7 @@ Here you can find slides, examples and case studies.
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   |                                                             | [globular_cluster.txt](cs_files/globular_cluster.txt) |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
-| Further Bayesian models | TBD                                               |                                                             |                                                       |
+| Spatial Bayesian models | [Slides spatial](slides/spatial.pdf)              |                                                             |                                                       |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
 
 Material is subject to changes during the term.
