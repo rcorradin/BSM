@@ -45,6 +45,14 @@ Here you can find slides, examples and case studies.
 |                         |                                                   | [poisson_glm](code/poisson_glm.stan)                        | [grouse.csv](cs_files/grouse.csv)                     |
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   | [gamma_glm](code/gamma_glm.stan)                            | [ant.csv](cs_files/ant.csv)                           |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [solution](cs_files/CS_GLM.R)                         |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Poi_GLM](cs_files/Poi_GLM.stan)                      |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Poi_GLMM](cs_files/Poi_GLMM.stan)                    |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Poi_GLMM2](cs_files/Poi_GLMM2.stan)                  |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
 | Model improvement       | [Slides improvement](slides/improvement.pdf)      | [code_BSM4](code/code_BSM4.R)                               | [CS improvement](cs_files/CSimprovement.pdf)          |
 |                         |                                                   |                                                             |                                                       |
@@ -61,12 +69,24 @@ Here you can find slides, examples and case studies.
 | Clustering              | [Slides clustering](slides/clustering.pdf)        | [code_BSM5](code/code_BSM5.R)                               | [CS clustering](cs_files/CSclustering.pdf)            |
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   |                                                             | [globular_cluster.txt](cs_files/globular_cluster.txt) |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [solution](cs_files/CSclustering.R)                   |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
 | Spatial Bayesian models | [Slides spatial](slides/spatial.pdf)              |                                                             | [CS spatial](cs_files/CSspatial.pdf)                  |
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   |                                                             | [river.rda](cs_files/river.rda)                       |
 |                         |                                                   |                                                             |                                                       |
 |                         |                                                   |                                                             | [sids.rda](cs_files/sids.rda)                         |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [solution](cs_files/CSspatial.R)                      |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Areal](cs_files/areal.stan)                          |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Areal_null](cs_files/areal_null.stan)                |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Point_ref](cs_files/point_referenced.stan)           |
+|                         |                                                   |                                                             |                                                       |
+|                         |                                                   |                                                             | [Point_ref_null](cs_files/point_referenced_null.stan) |
 +-------------------------+---------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------+
 
 Material is subject to changes during the term.
