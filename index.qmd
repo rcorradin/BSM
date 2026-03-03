@@ -28,7 +28,7 @@ Here you can find slides, examples and case studies.
 +=================================+===========================================+===========================================================+==============+
 | Introduction                    | [Notes introduction](slides/intro.pdf)    |                                                           |              |
 +---------------------------------+-------------------------------------------+-----------------------------------------------------------+--------------+
-| Computational methods           | [Notes computation](slides/comp.pdf)      | [BSM2.R](code/code_BSM2.R)                                |              |
+| Computational methods           | [Notes computation](slides/comp.pdf)      | [note_comp.R](code/note_comp.R)                           |              |
 |                                 |                                           |                                                           |              |
 |                                 |                                           | [bernoulli_beta.stan](code/bernoulli_beta.stan)           |              |
 |                                 |                                           |                                                           |              |
