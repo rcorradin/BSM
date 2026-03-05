@@ -43,3 +43,12 @@ model
 	 y[i] ~ poisson(lambda[i]);
 	}
 }
+
+generated quantities 
+{
+  vector[n] log_lik;
+  for (j in 1:n) 
+	{
+    log_lik[j] = poisson_lpmf(y[j] | lambda[j]);
+  }
+}

@@ -40,7 +40,7 @@ model
 {
 	// Prior:
   beta ~ multi_normal(beta0, Sigma0 * sigma2);
-	sigma2 ~ inv_gamma(2., 10.);
+	sigma2 ~ inv_gamma(a0, b0);
 	
 	// Likelihood:
 	y ~ normal(mu, pow(sigma2, 0.5));

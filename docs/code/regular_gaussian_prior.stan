@@ -40,7 +40,7 @@ model
 {
 	// Prior:
   for(j in 1:p){
-	  beta[j] ~ normal(beta0[j], pow(sqrt(sigma2) / lambda, 0.5));  
+	  beta[j] ~ normal(beta0[j], pow(sigma2 / lambda, 0.5));  
 	}
 	sigma2 ~ inv_gamma(2., 10.);
 	lambda ~ gamma(1,1);

@@ -44,3 +44,12 @@ model
 	 y[i] ~ gamma(alpha, (alpha / mu[i]));
 	}
 }
+
+generated quantities 
+{
+  vector[n] log_lik;
+  for (j in 1:n) 
+	{
+    log_lik[j] = gamma_lpdf(y[j] | alpha, (alpha / mu[j]));
+  }
+}

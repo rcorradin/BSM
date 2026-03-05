@@ -10,6 +10,307 @@ library(BayesLogit)
 library(ggplot2)
 
 # -----------------------------
+# The data reported in the slides and the corresponding design matrix
+# -----------------------------
+
+y <- c(-3.7, -5.0, 7.3, -4.3, -4.4, -7.3, 0.0, -5.7, 9.2, -4.0,
+       -1.1, 1.5, -3.8, -7.4, 5.3, -8.8, -2.2, -5.4, 0.2, -2.6)
+z <- c(1.1, 2.2, 3.6, 0.9, 1.9, 2.1, 2.7, 1.8, 4.0, 1.9,
+       2.4, 3.0, 1.6, 1.0, 3.8, -0.3, 2.9, 2.0, 3.0, 2.4)
+X <- cbind(rep(1, 20), z, z^2)
+
+# -----------------------------
+# In this first part, we build a Gibbs sampler to perform
+# inference with linear model and the non-informative prior specification
+# 
+# The function is called with four arguments: 
+#    - the response variable "y"
+#    - the design matrix "X"
+#    - total number of iterations "niter"
+#    - number of burn-in iterations "nburn"
+# -----------------------------
+
+gibbs_vague_prior <- function(y, X, niter, nburn){
+  
+  out_sigma2 <- rep(0, niter)
+  out_beta <- matrix(0, ncol = ncol(X), nrow = niter)
+  
+  beta_ML <- solve(t(X) %*% X) %*% t(X) %*% y
+  
+  an <- (nrow(X) - ncol(X)) / 2
+  bn <- 0.5 * t(y - X %*% beta_ML) %*% (y - X %*% beta_ML)
+  Sigman <- solve(t(X) %*% X)
+  
+  for(i in 1:niter){
+    out_sigma2[i] <- 1 / rgamma(1, shape = an, scale = 1 / bn)
+    out_beta[i,] <- rmvnorm(n = 1, mean = beta_ML, 
+                            sigma = out_sigma2[i] * Sigman)
+  }
+  
+  list(out_sigma2[-c(1:nburn)], out_beta[-c(1:nburn),])
+}
+
+# with 5 observations
+
+out_gibbs_vague_5 <- gibbs_vague_prior(y[1:5], X[1:5,], 1200, 200)
+
+acf(out_gibbs_vague_5[[1]])
+acf(out_gibbs_vague_5[[2]][,1])
+acf(out_gibbs_vague_5[[2]][,2])
+acf(out_gibbs_vague_5[[2]][,3])
+
+hist(out_gibbs_vague_5[[1]])
+plot(as.data.frame(out_gibbs_vague_5[[2]]))
+
+summary(out_gibbs_vague_5[[1]])
+summary(as.data.frame(out_gibbs_vague_5[[2]]))
+
+beta_sigma_out_5 <- as.mcmc(cbind(out_gibbs_vague_5[[2]], out_gibbs_vague_5[[1]]))
+summary(beta_sigma_out_5)
+effectiveSize(beta_sigma_out_5)
+geweke.diag(beta_sigma_out_5)
+
+# with the whole sample
+
+out_gibbs_vague <- gibbs_vague_prior(y, X, 1200, 200)
+
+acf(out_gibbs_vague[[1]])
+acf(out_gibbs_vague[[2]][,1])
+acf(out_gibbs_vague[[2]][,2])
+acf(out_gibbs_vague[[2]][,3])
+
+hist(out_gibbs_vague[[1]])
+plot(as.data.frame(out_gibbs_vague[[2]]))
+
+summary(out_gibbs_vague[[1]])
+summary(as.data.frame(out_gibbs_vague[[2]]))
+
+beta_sigma_out <- as.mcmc(cbind(out_gibbs_vague[[2]], out_gibbs_vague[[1]]))
+summary(beta_sigma_out)
+effectiveSize(beta_sigma_out)
+geweke.diag(beta_sigma_out)
+
+# -----------------------------
+# In the following, we perform similar analysis with
+# the model implemented in STAN and the informative prior
+# 
+# The STAN model is coded in the file "regression_informative_prior.stan"
+# -----------------------------
+
+# with 5 observations
+
+data_STAN_5 <-list(n = 5, 
+                   p = 3,  
+                   y = y[1:5], 
+                   X = X[1:5,], 
+                   beta0 = rep(0, 3), 
+                   Sigma0 = diag(10^2, 3), 
+                   a0 = 2, 
+                   b0 = 1)
+
+out_STAN_5 <- stan(file = "regression_informative_prior.stan", 
+                   data = data_STAN_5,
+                   chains = 1, 
+                   iter = 1200, 
+                   warmup = 200, 
+                   seed = 42)
+
+rstan::traceplot(out_STAN_5, pars = c("beta", "sigma2"))
+params_STAN_5 <- As.mcmc.list(out_STAN_5, pars = c("beta", "sigma2"))
+summary(params_STAN_5)
+effectiveSize(params_STAN_5)
+geweke.diag(params_STAN_5)
+
+df_plot <- data.frame(x = as.vector(params_STAN_5[[1]]), 
+                      group = factor(rep(c("beta1", "beta2", "beta3", "sigma2"), each = 1000)))
+ggplot(df_plot[1:2400,]) + 
+  geom_histogram(aes(x = x, fill = group), col = 1, alpha = 0.5) + 
+  facet_wrap(.~group, nrow = 1) +
+  theme_bw() + 
+  theme(legend.position = "null")
+
+# with 20 observations
+
+data_STAN_20 <-list(n = 20, 
+                    p = 3,  
+                    y = y, 
+                    X = X, 
+                    beta0 = rep(0, 3), 
+                    Sigma0 = diag(10^2, 3), 
+                    a0 = 2, 
+                    b0 = 1)
+
+out_STAN_20 <- stan(file = "regression_informative_prior.stan", 
+                    data = data_STAN_20,
+                    chains = 1, 
+                    iter = 1200, 
+                    warmup = 200, 
+                    seed = 42)
+
+rstan::traceplot(out_STAN_20, pars = c("beta", "sigma2"))
+params_STAN_20 <- As.mcmc.list(out_STAN_20, pars = c("beta", "sigma2"))
+summary(params_STAN_20)
+effectiveSize(params_STAN_20)
+geweke.diag(params_STAN_20)
+
+df_plot <- data.frame(x = as.vector(params_STAN_20[[1]]), 
+                      group = factor(rep(c("beta1", "beta2", "beta3", "sigma2"), each = 1000)))
+ggplot(df_plot[1:2400,]) + 
+  geom_histogram(aes(x = x, fill = group), col = 1, alpha = 0.5) + 
+  facet_wrap(.~group, nrow = 1) +
+  theme_bw() + 
+  theme(legend.position = "null")
+
+# -----------------------------
+# Hypothesis test
+# 
+# we define the marginal distribution of the data, 
+# then we use such a function to calculate the
+# Bayes factors
+# -----------------------------
+
+marginal_distribution <- function(y, X, beta0, Sigma0, a0, b0){
+  
+  Sigman <- solve(solve(Sigma0) + t(X) %*% X)
+  betan <- Sigman %*% (solve(Sigma0) %*% beta0 + t(X) %*% y)
+  an <- a0 + length(y) / 2
+  bn <- b0 + 0.5 * (t(y) %*% y - t(betan) %*% solve(Sigman) %*% betan + 
+                      t(beta0) %*% solve(Sigma0) %*% beta0)
+  
+  logM <- 0.5 * log(det(Sigman)) - an * log(bn) + lgamma(an)
+  return(exp(logM[1,1]))
+}
+
+# Test for a single coefficient
+
+marginal_distribution(y[1:5], X[1:5,-2], rep(0, 2), diag(10^2, 2), 3, 2) /
+  marginal_distribution(y[1:5], X[1:5,], rep(0, 3), diag(10^2, 3), 3, 2)
+
+marginal_distribution(y, X[,-2], rep(0, 2), diag(10^2, 2), 3, 2) /
+  marginal_distribution(y, X[,], rep(0, 3), diag(10^2, 3), 3, 2)
+
+# Test vs null model
+
+marginal_distribution(y[1:5], X[1:5,-c(2,3)], rep(0, 1), diag(10^2, 1), 3, 2) /
+  marginal_distribution(y[1:5], X[1:5,], rep(0, 3), diag(10^2, 3), 3, 2)
+
+marginal_distribution(y, X[,-c(2,3)], rep(0, 1), diag(10^2, 1), 3, 2) /
+  marginal_distribution(y, X[,], rep(0, 3), diag(10^2, 3), 3, 2)
+
+# -----------------------------
+# Predictive distribution
+# -----------------------------
+
+zn1 <- -1.5
+xn1 <- c(1, zn1, zn1^2)
+
+sample_pred <- function(y, X, beta0, Sigma0, a0, b0){
+  Sigman <- solve(solve(Sigma0) + t(X) %*% X)
+  betan <- Sigman %*% (solve(Sigma0) %*% beta0 + t(X) %*% y)
+  an <- a0 + length(y) / 2
+  bn <- b0 + 0.5 * (t(y) %*% y - t(betan) %*% solve(Sigman) %*% betan + 
+                      t(beta0) %*% solve(Sigma0) %*% beta0)
+  
+  sample <- rt(n = 1000, df = 2 * an) * 
+    sqrt(as.numeric((1 + t(xn1) %*% Sigman %*% xn1) * bn / an)) + 
+    as.numeric(xn1 %*% betan)
+  
+  return(sample)
+}
+
+sample11 <- sample_pred(y[1:5], X[1:5,], rep(0, 3), diag(25, 3), 2, 5)
+sample12 <- sample_pred(y, X, rep(0, 3), diag(25, 3), 2, 5)
+
+sample21 <- sample_pred(y[1:5], X[1:5,], rep(0, 3), diag(5, 3), 2, 5)
+sample22 <- sample_pred(y, X, rep(0, 3), diag(5, 3), 2, 5)
+
+data_plt <- data.frame(x = c(sample11, sample12, sample21, sample22), 
+                       group = factor(rep(c("large var - small n", 
+                                            "large var - large n", 
+                                            "small var - small n", 
+                                            "small var - large n"), each = 1000)))
+ggplot(data_plt) + 
+  geom_histogram(aes(x = x), alpha = 0.2, col = 1, fill = 1) + 
+  theme_bw() + 
+  facet_wrap(.~group, nrow = 2)
+
+# -----------------------------
+# Regularization
+# 
+# we compare the regression model of before (Gaussian prior) with the lasso
+# regularization (Laplace prior)
+# 
+# note that by setting Sigma0 = diag(1 / lambda) we have the same smoothing
+# of the slides with parameter lambda
+# -----------------------------
+
+data_STAN_reg_gaus <-list(n = 20, 
+                          p = 3,  
+                          y = y, 
+                          X = X, 
+                          beta0 = rep(0, 3), 
+                          a0 = 2, 
+                          b0 = 1)
+
+out_STAN_reg_gaus <- stan(file = "regular_gaussian_prior.stan", 
+                          data = data_STAN_reg_gaus,
+                          chains = 1, 
+                          iter = 1000, 
+                          warmup = 200, 
+                          seed = 42)
+
+params_STAN_reg_gaus <- as.mcmc(extract(out_STAN_reg_gaus, 
+                                        pars = c("beta", "sigma2"), permuted = TRUE))
+
+data_STAN_reg_lap <-list(n = 20, 
+                         p = 3,  
+                         y = y, 
+                         X = X, 
+                         beta0 = rep(0, 3), 
+                         a0 = 2, 
+                         b0 = 1)
+
+out_STAN_reg_lap <- stan(file = "regular_laplace_prior.stan", 
+                         data = data_STAN_reg_lap,
+                         chains = 1, 
+                         iter = 1000, 
+                         warmup = 200, 
+                         seed = 42)
+
+params_STAN_reg_lap <- as.mcmc(extract(out_STAN_reg_lap, 
+                                       pars = c("beta", "sigma2"), permuted = TRUE))
+
+# we generate here a dataframe with the samples of interest, divided by model
+# and set model as a factor variable 
+
+df_plot <- as.data.frame(cbind(rbind(params_STAN_reg_gaus[[1]], 
+                                     params_STAN_reg_lap[[1]]), 
+                               c(params_STAN_reg_gaus[[2]], 
+                                 params_STAN_reg_lap[[2]]), 
+                               rep(c(1,2), each = 800)))
+colnames(df_plot) <- c("beta1", "beta2", "beta3", "sigma2", "model")
+df_plot$model <- factor(df_plot$model, labels = c("gaus", "lap"))
+
+# now some plots to compare the estimates
+
+ggplot(df_plot) + 
+  geom_histogram(aes(x = beta1, after_stat(density), group = model, fill = model), 
+                 col = 1, alpha = 0.5, position="identity") + 
+  theme_bw() + ylab("") + ggtitle("beta 1")
+ggplot(df_plot) + 
+  geom_histogram(aes(x = beta2, after_stat(density), group = model, fill = model), 
+                 col = 1, alpha = 0.5, position="identity") + 
+  theme_bw() + ylab("") + ggtitle("beta 2")
+ggplot(df_plot) + 
+  geom_histogram(aes(x = beta3, after_stat(density), group = model, fill = model), 
+                 col = 1, alpha = 0.5, position="identity") + 
+  theme_bw() + ylab("") + ggtitle("beta 3")2
+ggplot(df_plot) + 
+  geom_histogram(aes(x = sigma2, after_stat(density), group = model, fill = model), 
+                 col = 1, alpha = 0.5, position="identity") + 
+  theme_bw() + ylab("") + ggtitle("sigma2")
+
+# -----------------------------
 # PROBIT REGRESSION MODEL
 # -----------------------------
 
@@ -111,147 +412,13 @@ mean(out_augmented_probit[,2] > 0) /
   mean(out_augmented_probit[,2] < 0)
 
 # -----------------------------
-# test if beta2 is significantly greater than 0
-# ... the following is a Bayes factor, do you agree?
+# predicting the furture!!
 # -----------------------------
 
 xn1 <- c(1, 2, 4)
 pn1 <- pnorm(out_augmented_probit %*% xn1)
 yn1 <- sapply(pn1, function(x) sample(c(1,0), size = 1, prob = c(x, 1 - x)))
 table(yn1)
-
-# -----------------------------
-# LOGISTIC REGRESSION MODEL
-# -----------------------------
-
-# -----------------------------
-# The data reported in the slides for the probit model
-# and the corresponding design matrix
-# -----------------------------
-
-set.seed(123); betatrue <- c(-1, -2, 2)
-z <- round(rnorm(100, 0, 1), digits = 1)
-X <- cbind(rep(1, 100), z, z^2)
-tempprobs <- exp(X %*% betatrue) / (1 + exp(X %*% betatrue))
-y <- sapply(tempprobs[,1], function(x) rbinom(1,1,x))
-
-# -----------------------------
-# In this first part, we build a Gibbs sampler to perform
-# inference with the logistic model, with the augmentation
-# strategy discussed in the slides
-# 
-# The function is called with four arguments: 
-#    - the response variable "y"
-#    - the design matrix "X"
-#    - total number of iterations "niter"
-#    - number of burn-in iterations "nburn"
-# -----------------------------
-
-gibbs_augmented_logistic <- function(y, X, niter, nburn, b0, Sigma0){
-  
-  out_beta <- matrix(0, ncol = ncol(X), nrow = niter)
-  v <- rep(0, length(y))
-  beta <- rep(0, ncol(X))
-  
-  for(i in 1:niter){
-    
-    # update the augmented variables 
-    for(j in 1:length(y)){
-      v[j] <- rpg.devroye(1, 1, X[j,] %*% beta)
-    }
-    
-    # sample the regression coefficients
-    Vn <- diag(v)
-    Sigman <- solve(solve(Sigma0) + t(X) %*% Vn %*% X)
-    bn <- Sigman %*% (solve(Sigma0) %*% b0 + t(X) %*% (y - 0.5))
-    beta <- rmvnorm(n = 1, mean = bn, sigma = Sigman)[1,]
-    out_beta[i,] <- beta
-  }
-  
-  return(out_beta[-c(1:nburn),])
-}
-
-# -----------------------------
-# sample from the posterior distribution
-# -----------------------------
-
-out_augmented_logistic <- 
-  gibbs_augmented_logistic(y, X, 1200, 200, rep(0, 3), diag(10^3, 3))
-
-params_STAN_logistic <- as.mcmc(out_augmented_logistic)
-summary(params_STAN_logistic)
-geweke.diag(params_STAN_logistic)
-
-# plotting the densities
-df_plot <- data.frame(label = factor(rep(c("beta1", "beta2", "beta3"), each = 1000)), 
-                      x = as.vector(out_augmented_logistic))
-
-# -----------------------------
-# now some plots to compare the estimates
-# -----------------------------
-
-ggplot(df_plot) + 
-  geom_histogram(aes(x = x, after_stat(density), fill = label), 
-                 col = 1, alpha = 0.5, position="identity") + 
-  geom_vline(aes(xintercept = 0), lty = 2) + 
-  theme_bw() + 
-  ylab("") + 
-  facet_wrap(~label) +
-  theme(legend.position = "null")
-
-ggplot(df_plot) + 
-  geom_violin(aes(x = label, y = x, fill = label), trim=FALSE) +
-  geom_boxplot(aes(x = label, y = x), width = 0.1) +
-  geom_hline(aes(yintercept = 0), lty = 2) + 
-  theme_bw() + 
-  ylab("") + 
-  xlab("") + 
-  theme(legend.position = "null")
-
-# -----------------------------
-# extra plot 
-# -----------------------------
-
-z_grid <- seq(-3, 3, by = 0.1)
-X_grid <- cbind(rep(1, length(z_grid)), z_grid, z_grid^2)
-out_plot <- t(apply(out_augmented_logistic, 1, function(x) exp(X_grid %*% x) / (1 + exp(X_grid %*% x))))
-out_median <- apply(out_plot, 2, median)
-out_low <- apply(out_plot, 2, quantile, p = 0.1)
-out_up <- apply(out_plot, 2, quantile, p = 0.9)
-
-# generating the fitted line for the ML estimate and the true model
-
-m1 <- glm(y ~ 0 + X, family = binomial(link = "logit"))
-freq_line <- exp(X_grid %*% m1$coefficients) / (1 + exp(X_grid %*% m1$coefficients))
-true_line <- exp(X_grid %*% betatrue) / (1 + exp(X_grid %*% betatrue))
-
-ggplot(data.frame(x = z_grid, y = out_median, 
-                  ylow = out_low, yup = out_up)) + 
-  geom_ribbon(aes(x = x, ymin = ylow, ymax = yup), fill = "#100f7a", alpha = 0.2) +
-  geom_line(aes(x = x, y = y), col = "#100f7a") + 
-  geom_line(data = data.frame(x = z_grid, y = freq_line), 
-            aes(x = x, y = y), col = "#7a0f10") +
-  geom_line(data = data.frame(x = z_grid, y = true_line), 
-            aes(x = x, y = y), col = "#7a0f10", lty = 2) +
-  theme_bw() + ylab("") + ggtitle("Posterior distribution")
-
-# filled blue line - posterior median
-# filled red line - ML estimate
-# dashed red line - true model
-
-ggplot(data.frame(x = - out_augmented_logistic[,3] / (2 * out_augmented_logistic[,2]))) + 
-  geom_histogram(aes(x = x, after_stat(density)), 
-                 alpha = 0.2, position="identity", col = "#100f7a", fill = "#100f7a") + 
-  geom_vline(aes(xintercept = mean(- out_augmented_logistic[,3] / (2 * out_augmented_logistic[,2]))), col = "#7a0f10", lty = 2) +
-  theme_bw() + ylab("") + ggtitle("Regime change")
-
-# -----------------------------
-# test if beta2 is significantly greater than 0
-# ... the following is a Bayes factor, do you agree?
-# -----------------------------
-
-mean(out_augmented_logistic[,2] > 0) / 
-  mean(out_augmented_logistic[,2] < 0)
 
 # -----------------------------
 # POISSON REGRESSION MODEL
@@ -288,9 +455,9 @@ out_STAN_poi <- stan(file = "poisson_glm.stan",
                     seed = 42)
 
 rstan::traceplot(out_STAN_poi, pars = c("beta"))
-params_STAN_poi <- as.mcmc(extract(out_STAN_poi, pars = c("beta"), permuted = TRUE))
-summary(params_STAN_poi$beta)
-geweke.diag(params_STAN_poi$beta)
+params_STAN_poi <- As.mcmc.list(out_STAN_poi, pars = c("beta"))
+summary(params_STAN_poi)
+geweke.diag(params_STAN_poi)
 
 # plotting the densities
 df_plot <- data.frame(label = factor(rep(c("beta1", "beta2", "beta3"), each = 1000)), 
@@ -355,9 +522,9 @@ out_STAN_gamma <- stan(file = "gamma_glm.stan",
                        seed = 42)
 
 rstan::traceplot(out_STAN_gamma, pars = c("beta"))
-params_STAN_gamma <- as.mcmc(extract(out_STAN_gamma, pars = c("beta"), permuted = TRUE))
-summary(params_STAN_gamma$beta)
-geweke.diag(params_STAN_gamma$beta)
+params_STAN_gamma <- As.mcmc.list(out_STAN_gamma, pars = c("beta"))
+summary(params_STAN_gamma)
+geweke.diag(params_STAN_gamma)
 
 # plotting the densities
 df_plot <- data.frame(label = factor(rep(c("beta1", "beta2", "beta3"), each = 1000)), 
@@ -511,7 +678,7 @@ ggplot(df_plot_beta) +
   xlab("") + 
   theme(legend.position = "null")
 
-df_plot_gamma <- data.frame(label = factor(rep(c("beta1", "beta2","beta1", "beta2"), each = 1000)), 
+df_plot_gamma <- data.frame(label = factor(rep(c("gamma1", "gamma2","gamma1", "gamma2"), each = 1000)), 
                             group = factor(rep(c("group1", "group2"), each = 2000)), 
                             x = c(as.vector(gamma1_LMM), as.vector(gamma2_LMM)))
 
