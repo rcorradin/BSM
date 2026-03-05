@@ -238,12 +238,15 @@ summary(param_GLM)
 geweke.diag(param_GLM)
 
 # TEST --------------
-
+S1 <- bridge_sampler(Poi_GLM)
 llik_GLM <- extract(Poi_GLM, "log_lik")[[1]]
 marginal_GLM <- log(nrow(llik_GLM)) - logsumexp(-apply(llik_GLM, 1, sum))
 
+S2 <- bridge_sampler(Poi_GLM2)
 llik_GLM2 <- extract(Poi_GLM2, "log_lik")[[1]]
 marginal_GLM2 <- log(nrow(llik_GLM2)) - logsumexp(-apply(llik_GLM2, 1, sum))
 
 # BAYES FACTOR
 exp(marginal_GLM - marginal_GLM2)
+exp(S1$logml - S2$logml)
+bf(S1, S2, log = T)
