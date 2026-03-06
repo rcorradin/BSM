@@ -32,7 +32,6 @@ model {
 	{
 		y[s] ~ poisson(mu[s]);  
 	} 
-  
   beta ~ multi_normal(b0, Sigma0);
 }
 

@@ -7,6 +7,7 @@ library(ggplot2)
 library(bayestestR)
 library(rstan)
 library(coda)
+library(bridgesampling)
 
 logsumexp <- function(x){
   M <- max(x)
@@ -230,12 +231,12 @@ Poi_GLM2 <- stan(file = "Poi_GLM.stan",
 
 # Show the traceplots
 
-rstan::traceplot(Poi_GLM, pars = "beta", inc_warmup = TRUE)
-rstan::traceplot(Poi_GLM, pars = "beta", inc_warmup = FALSE)
+rstan::traceplot(Poi_GLM2, pars = "beta", inc_warmup = TRUE)
+rstan::traceplot(Poi_GLM2, pars = "beta", inc_warmup = FALSE)
 
-param_GLM <- As.mcmc.list(Poi_GLM, pars = c("beta"))
-summary(param_GLM)
-geweke.diag(param_GLM)
+param_GLM2 <- As.mcmc.list(Poi_GLM2, pars = c("beta"))
+summary(param_GLM2)
+geweke.diag(param_GLM2)
 
 # TEST --------------
 S1 <- bridge_sampler(Poi_GLM)
